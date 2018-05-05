@@ -15,11 +15,19 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <h1>{{athlete}}</h1>
-    <ul>
-      {% for i in team.athlete_set.all %}
-        {{i}}
-      {% endfor %}
-
-    </ul>
+    {% if error_message %}
+      <p> <strong> {{error_message}}</strong></p>
+    {% endif %}
+    <form action = "{% url 'sports:vote' athlete.athlete_id %}" method = "post">
+    {% csrf_token %}
+      <ul>
+        {% for i in team.athlete_set.all %}
+          <input type="radio" name = "friends" id = "{{forloop.counter}}" value = "{{i.athlete_id}}" />
+          <label for="{{forloop.counter}}"> {{i.athlete_name}} </label> 
+          <br />
+        {% endfor %}
+        <input type="submit" value="vote" />
+      </ul>
+    </form>
   </body>
 </html>
