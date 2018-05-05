@@ -1,7 +1,7 @@
 {% if athletes %}
   <ul>
       {% for athlete in athletes %}
-        <li><a href = "/sports/{{ athlete.id }}">{{athlete.athlete_name}}</a></li>
+        <li><a href = "{% url 'sports:detail' athlete.athlete_id %}">{{athlete.athlete_name}}</a></li>
       {% endfor %}
   </ul>
 {% else %}
