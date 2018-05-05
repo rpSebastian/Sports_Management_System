@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 from .models import Athlete
@@ -33,3 +33,8 @@ def vote(request, question_id):
         return render(request, 'sports/details.html', d1)
     else:
         return HttpResponseRedirect(reverse('sports:results', args=(str(athlete.athlete_id))))
+
+def submit(request):
+    name = request.POST["name"]
+    name = name + "haha"
+    return JsonResponse({'hi':name})
