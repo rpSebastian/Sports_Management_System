@@ -1,9 +1,26 @@
-{% if athletes %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" media="screen" href= "{% static "sports/css/index.css" %}" />
+</head>
+<body>
+  {% if athletes %}
   <ul>
       {% for athlete in athletes %}
         <li><a href = "{% url 'sports:detail' athlete.athlete_id %}">{{athlete.athlete_name}}</a></li>
       {% endfor %}
   </ul>
-{% else %}
-  <p> No athlete exists.</p>
-{% endif %}
+  {% else %}
+    <p> No athlete exists.</p>
+  {% endif %}
+  <div class = "k1">
+
+  </div>
+</body>
+  <script src=  "{% static 'sports/js/index.js' %}"></script>
+</html>
