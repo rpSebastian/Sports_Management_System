@@ -1,0 +1,9 @@
+{% if athletes %}
+  <ul>
+      {% for athlete in athletes %}
+        <li><a href = "/sports/{{ athlete.id }}">{{athlete.athlete_name}}</a></li>
+      {% endfor %}
+  </ul>
+{% else %}
+  <p> No athlete exists.</p>
+{% endif %}

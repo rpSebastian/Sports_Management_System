@@ -1,13 +1,22 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.http import HttpResponse, Http404
+
+
 from .models import Athlete
 # Create your views here.
 
 def index(request):
-    return HttpResponse("hello world")
+    athletes = get_list_or_404(Athlete)
+    return render(request, 'sports/index.html', locals())
 
 def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
+    # try:
+    #     athlete = Athlete.objects.get(pk=question_id)
+    # except Athlete.DoesNotExist:
+    #     raise Http404("Athlete does not exist")
+    athlete = get_object_or_404(Athlete, pk=question_id)
+    team = athlete.team
+    return render(request, 'sports/details.html', locals())
 
 def results(request, question_id):
     response = "You're looking at the results of question %s."
