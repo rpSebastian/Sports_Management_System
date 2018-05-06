@@ -38,3 +38,12 @@ def submit(request):
     name = request.POST["name"]
     name = name + "haha"
     return JsonResponse({'hi':name})
+
+def login(request):
+    return render(request, "sports/login.html", locals())    
+
+def group_index(request):
+    return render(request, "sports/group-index.html", locals())    
+
+def group_register(request):
+    return render(request, "sports/group-register.html", locals())    

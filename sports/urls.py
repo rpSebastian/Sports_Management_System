@@ -13,4 +13,10 @@ urlpatterns = [
     path('<int:question_id>/vote/', views.vote, name='vote'),
 
     path('submit/', views.submit, name = "submit"),
+
+    path('login/', views.login, name = "login"),
+
+    path('group/index', views.group_index, name = "group_index"),
+
+    path('group/register', views.group_register, name = "group_register"),   
 ]
