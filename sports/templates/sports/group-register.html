@@ -1,5 +1,252 @@
-{% extends "sports/base.html" %}
-{% block content %}
+{% extends "sports/base.html" %} {% load staticfiles %} {% block css %}
+<link href="{% static 'sports/css/group-register.css' %}" rel="stylesheet" type="text/css" /> {% endblock css %} {% block content %} {% block js %}
+<script src="{% static 'sports/js/group-register.js' %}"></script>
+{% endblock js %}
+<ul class="breadcrumb">
+  <li class="active">运动会代表队报名</li>
+</ul>
+<div class="col-sm-12">
+  <div class="row">
+    <!-- 领队和队医信息 -->
+    <div class="col-sm-12 text-center">
+      <h2>领队及队医信息</h2>
+    </div>
+    <div class="col-sm-12 mb-1 line"></div>
+    <div class="captin-doctor-form">
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="captain-name" class="col-sm-3 control-label">领队姓名</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="captain-name">
+          </div>
+        </div>
+      </div>
 
-
-{% endblock content %}
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="doctor-name" class="col-sm-3 control-label">队医姓名</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="doctor-name">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="captain-id" class="col-sm-3 control-label">领队身份证</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="captain-id">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="doctor-id" class="col-sm-3 control-label">队医身份证</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="doctor-id">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="captain-phone" class="col-sm-3 control-label">领队电话</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="captain-phone">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="doctor-phone" class="col-sm-3 control-label">队医电话</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="doctor-phone">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 line"></div>
+    <!-- 运动员信息 -->
+    <div class="col-sm-4 col-sm-offset-5">
+      <h2>运动员信息</h2>
+    </div>
+    <div class="col-sm-3">
+      <button type="button" class="btn btn-primary add-athlete">增加</button>
+    </div>
+    <div class="col-sm-12 mb-1 line"></div>
+    <div class="athlete-form">
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="athlete-name1" class="col-sm-3 control-label">运动员姓名</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="athlete-name1">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="athlete-id1" class="col-sm-3 control-label">运动员身份证</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="athlete-id1">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="select-sex1" class="col-sm-3 control-label">运动员性别</label>
+          <div class="col-sm-9 sandbox-container">
+            <select class="form-control select-sex" id="select-sex1">
+              <option></option>
+              <option value="1">男</option>
+              <option value="2">女</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="select-age1" class="col-sm-3 control-label">运动员年龄</label>
+          <div class="col-sm-9 sandbox-container">
+            <select class="form-control" id="select-age1">
+              <option></option>
+              <option value="1">7-8</option>
+              <option value="2">9-10</option>
+              <option value="3">11-12</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" id="athlete-project-man1" style="display:none">
+        <div class="form-group row">
+          <label for="select-project-man1" class="col-sm-2 control-label">参与的比赛项目</label>
+          <div class="col-sm-9 sandbox-container" id="select-project-man1">
+            <label class="checkbox-inline">
+              <input type="checkbox" value="1"> 单杠
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="2"> 双杠
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="3"> 吊环
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="4"> 跳马
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="5"> 自由体操
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="6"> 鞍马
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="7"> 蹦床
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12" id="athlete-project-woman1" style="display:none">
+        <div class="form-group row">
+          <label class="col-sm-2 control-label">参与的比赛项目</label>
+          <div class="col-sm-9 sandbox-container select-project-woman" id="select-project-woman1">
+            <label class="checkbox-inline">
+              <input type="checkbox" value="1"> 跳马
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="2"> 高低杠
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="3"> 平衡木
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="4"> 自由体操
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" value="5"> 蹦床
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 line"></div>
+    <!-- 教练员信息 -->
+    <div class="col-sm-12 text-center">
+      <h2>教练员信息</h2>
+    </div>
+    <div class="col-sm-12 mb-1 line"></div>
+    <div class="coach-form">
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="coach-name" class="col-sm-3 control-label">教练员姓名</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="coach-name">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="coach-phone" class="col-sm-3 control-label">教练员电话</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="coach-phone">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="coach-sex" class="col-sm-3 control-label">教练员性别</label>
+          <div class="col-sm-9 sandbox-container">
+            <select class="form-control select-sex" id="coach-sex">
+              <option></option>
+              <option value="1">男</option>
+              <option value="2">女</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="coach-id" class="col-sm-3 control-label">教练员身份证号</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="coach-id">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 mb-1 line"></div>
+    <!-- 裁判员信息 -->
+    <div class="col-sm-12 text-center">
+      <h2>裁判员信息</h2>
+    </div>
+    <div class="col-sm-12 mb-1 line"></div>
+    <div class="coach-form">
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="judge-name" class="col-sm-3 control-label">裁判员姓名</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="judge-name">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="judge-phone" class="col-sm-3 control-label">裁判员电话</label>
+          <div class="col-sm-9 sandbox-container">
+            <input type="text" class="form-control" id="judge-phone">
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group row">
+          <label for="judge-sex" class="col-sm-3 control-label">裁判员性别</label>
+          <div class="col-sm-9 sandbox-container">
+            <select class="form-control select-sex" id="judge-sex">
+              <option></option>
+              <option value="1">男</option>
+              <option value="2">女</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 mb-1 line"></div>
+    <div class="col-sm-12">
+      <button type="button" class="btn btn-primary btn-lg btn-block" id="submit"> 提交报名信息 </button>
+    </div>
+    {% endblock content %}
