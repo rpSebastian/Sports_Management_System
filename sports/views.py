@@ -13,7 +13,10 @@ def group_register(request):
     return render(request, "sports/group-register.html", locals())    
 
 def get_athlete_div(request):
-    #number = request.POST["number"]
-    number = 2
+    number = request.POST["number"]
+    number = int(number) - 1
     html = render_to_string('sports/athlete-div.html', {'number': number})
     return HttpResponse(html)
+
+def group_register_submit(request):
+    return HttpResponse("haha")
