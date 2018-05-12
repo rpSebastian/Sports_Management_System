@@ -30,17 +30,17 @@ class Team(models.Model):
     
 class Athlete(models.Model):
     SEX_CHOICES = (
-                    ('F','Female'),
-                    ('M','Male'),
+                    ('1','Male'),
+                    ('2','Female'),
                    )
-    athelete_team = models.ForeignKey(Team,on_delete=models.CASCADE)
-    athelete_age = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
-    athelete_name = models.CharField(max_length = 20)
-    athelete_id_cardnumber = models.CharField('id card number',max_length= 20)
-    athelete_sex = models.CharField(max_length=6,choices=SEX_CHOICES)
+    athlete_team = models.ForeignKey(Team,on_delete=models.CASCADE)
+    athlete_age = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
+    athlete_name = models.CharField(max_length = 20)
+    athlete_id_cardnumber = models.CharField('id card number',max_length= 20)
+    athlete_sex = models.CharField(max_length=6,choices=SEX_CHOICES)
     
     def __str__(self):
-        return str(self.pk) +'---'+self.athelete_name
+        return str(self.pk) +'---'+self.athlete_name
     
     
 class Project(models.Model):
@@ -146,11 +146,13 @@ class Score(models.Model):
 class Participate(models.Model):
     athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
     project = models.ForeignKey(Project,on_delete=models.ProtectedError)
-    serial_number = models.CharField(max_length=10)
-    group_number = models.CharField(max_length=5)
+    serial_number = models.IntegerField(default=0)
+    group_number = models.IntegerField(default=0    )
     
     def __str__(self):
-        return str(self.athlete.pk) +'---'+self.athlete.athelete_name
+        return str(self.athlete.pk) +'---'+self.athlete.athlete_name+'---'+str(self.project)
     
+
+
     class Meta:
         unique_together = ("athlete","project")

@@ -72,6 +72,7 @@ $("#submit").on("click", function () {
         type: "post",
         url: "submit",
         data: cond,
+        traditional: true,
         success: function (data) {
             console.log(data);
             swal({
