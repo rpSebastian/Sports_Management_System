@@ -15,7 +15,8 @@ class AgeGroup(models.Model):
     age_name = models.CharField(max_length = 2,choices=AGE_CHOICES)
     
     def __str__(self):
-        return str(self.pk) +'----'+ self.age_name
+        dic = {1:'7-8',2:'9-10',3:'11-12'}
+        return str(self.pk) + '----' + str(dic[int(self.age_name)])
 
 
 class Team(models.Model):
@@ -62,7 +63,24 @@ class Project(models.Model):
     Project_sex = models.CharField(max_length= 2,choices= SEX_CHOICES)
     
     def __str__(self):
-        return str(self.pk) + '---'+ self.Project_name
+        PROJECT_CHOICES = {1: '单杠',
+                           2: '双杠',
+                           3: '吊环',
+                           4: '跳马',
+                           5: '自由体操',
+                           6: '鞍马',
+                           7: '蹦床',
+                           8: '高低杠',
+                           9: '平衡木',
+                           }
+        SEX_CHOICES = {
+            1: 'Male',
+            2: 'Female',
+        }
+        dic = {1: '7-8', 2: '9-10', 3: '11-12'}
+        return str(self.pk) + '---'+ PROJECT_CHOICES[int(self.Project_name)] +'---'\
+               + dic[int(self.Project_agegroup.age_name)]\
+               +'---'+ SEX_CHOICES[int(self.Project_sex)]
     
     
 class TeamLeader(models.Model):
