@@ -53,13 +53,10 @@ class Project(models.Model):
                        ('8','高低杠'),
                        ('9','平衡木'),
                                     )
-<<<<<<< HEAD
-=======
     SEX_CHOICES = (
         ('1', 'Male'),
         ('2', 'Female'),
     )
->>>>>>> 7b16a725e5365eb7faf344f6d5be31864b2b1466
     Project_name = models.CharField(max_length=4,choices=PROJECT_CHOICES)
     Project_agegroup = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
     Project_sex = models.CharField(max_length= 2,choices= SEX_CHOICES)
