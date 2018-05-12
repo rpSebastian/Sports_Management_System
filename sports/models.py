@@ -53,8 +53,13 @@ class Project(models.Model):
                        ('8','高低杠'),
                        ('9','平衡木'),
                                     )
+    SEX_CHOICES = (
+        ('1', 'Male'),
+        ('2', 'Female'),
+    )
     Project_name = models.CharField(max_length=4,choices=PROJECT_CHOICES)
     Project_agegroup = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
+    Project_sex = models.CharField(max_length= 2,choices= SEX_CHOICES)
     
     def __str__(self):
         return str(self.pk) + '---'+ self.Project_name
