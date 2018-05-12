@@ -47,6 +47,7 @@ $("#submit").on("click", function () {
     cond.coach_id = $("#coach-id").val();
     cond.coach_phone = $("#coach-phone").val();
     cond.coach_sex = $("#coach-sex").val();
+    cond.athlete_num = athlete_num;
     for(var i = 0; i < athlete_num; ++i)
     {
         cond.athlete_name[i] = $("#athlete-name" + i).val();
