@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db import models
-from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate
+from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup
 
 # Create your views here.
 
@@ -40,11 +40,11 @@ def group_register_submit(request):
         athlete_name = request.POST["athlete_name" + str(i)]
         athlete_id = request.POST["athlete_id" + str(i)]
         athlete_sex = request.POST["athlete_sex" + str(i)]
-        
-        athlete_age = request.POST["athlete_age" + str(i)]
+
+        athlete_age_group = AgeGroup.filter(age_name = request.POST["athlete_age" + str(i)])
         athlete_projects = request.POST["athlete_project" + str(i)]
         athlete = Athlete(athlete_team = team[0], athlete_name = athlete_name, athelete_id_cardnumber = athlete_id, athlete_sex = athlete_sex, 
-        athlete_age = athlete_age)
+        athlete_age = athlete_age_group)
         
         for project_name in athlete_projects:
             project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age)
