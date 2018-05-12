@@ -16,22 +16,32 @@ class AgeGroup(models.Model):
     age_name = models.CharField(max_length = 20,choices=AGE_CHOICES)
     
     def __str__(self):
-        return self.age_id+self.age_name
+        return self.age_id+'----'+self.age_name
+
+
+class Team(models.Model):
+    Team_id = models.CharField(max_length=10)
+    Team_account_number = models.CharField('account number', max_length=20)
+    Team_account_password = models.CharField('account passward', max_length=20)
+    Team_name = models.CharField(max_length=20)
     
+    def __str__(self):
+        return self.Team_id +'---'+ self.Team_name
     
 class Athlete(models.Model):
     SEX_CHOICES = (
-                    ('Male','Female'),
+                    ('F','Female'),
+                    ('M','Male'),
                    )
     athelete_team = models.ForeignKey(Team,on_delete=models.CASCADE)
+    athelete_age = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
     athelete_id = models.CharField(max_length = 10)
     athelete_name = models.CharField(max_length = 20)
     athelete_id_cardnumber = models.CharField('id card number',max_length= 20)
     athelete_sex = models.CharField(max_length=6,choices=SEX_CHOICES)
-    athelete_age = models.ForeignKey(AgeGroup,on_delete=models.PROTECT)
     
     def __str__(self):
-        return self.athelete_id+self.athelete_name
+        return self.athelete_id+'---'+self.athelete_name
     
     
 class Project(models.Model):
@@ -50,17 +60,10 @@ class Project(models.Model):
     Project_agegroup = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.Project_id+self.Project_name
+        return self.Project_id+'---'+self.Project_name
     
     
-class Team(models.Model):
-    Team_id = models.CharField(max_length=10)
-    Team_account_number = models.CharField('account number',max_length=20)
-    Team_account_password = models.CharField('account passward',max_length=20)
-    Team_name = models.CharField(max_length=20)
-    
-    def __str__(self):
-        return self.Team_id+self.Team_name
+
     
     
 class TeamLeader(models.Model):
@@ -70,7 +73,7 @@ class TeamLeader(models.Model):
     TeamLeader_id_cardnumber = models.CharField('id card number',max_length=10)
     
     def __str__(self):
-        return self.TeamLeader_id+self.TeamLeader_name
+        return self.TeamLeader_id+'---'+self.TeamLeader_name
     
     
 class TeamDoctor(models.Model):
@@ -80,7 +83,7 @@ class TeamDoctor(models.Model):
     TeamDoctor_id_cardnumber = models.CharField('id card number',max_length=20)
     
     def __str__(self):
-        return self.TeamDoctor_id+self.TeamDoctor_name
+        return self.TeamDoctor_id+'---'+self.TeamDoctor_name
     
     
 class TeamInstructor(models.Model):
@@ -90,7 +93,7 @@ class TeamInstructor(models.Model):
     TeamInstructor_id_cardnumber = models.CharField('id card number',max_length=20)
     
     def __str__(self):
-        return self.TeamInstructor_id+self.TeamInstructor_name
+        return self.TeamInstructor_id+'---'+self.TeamInstructor_name
     
 
 class Judge(models.Model):
@@ -100,7 +103,7 @@ class Judge(models.Model):
     Judge_Phonenumber = models.CharField('phone number',max_length=11)
     
     def __str__(self):
-        return self.Judge_id + self.Judge_name
+        return self.Judge_id +'---'+self.Judge_name
     
 
 class Score(models.Model):
@@ -113,7 +116,7 @@ class Score(models.Model):
     Score_Value = models.CharField(max_length=5)
     
     def __str__(self):
-        return self.athlete.athelete_id + self.project.Project_id + self.judge.Judge_id
+        return self.athlete.athelete_id +'---'+self.project.Project_id +'---'+self.judge.Judge_id
     
     class Meta:
         unique_together = ("athlete","project","judge")
@@ -126,7 +129,7 @@ class Participate(models.Model):
     group_number = models.CharField(max_length=5)
     
     def __str__(self):
-        return self.athlete.athelete_id + self.athlete.athelete_name
+        return self.athlete.athelete_id +'---'+self.athlete.athelete_name
     
     class Meta:
         unique_together = ("athlete","project")
