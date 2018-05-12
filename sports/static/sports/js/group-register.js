@@ -43,6 +43,10 @@ $("#submit").on("click", function () {
     cond.athlete_sex = [];
     cond.athlete_age = []; 
     cond.athlete_project = [];
+    cond.coach_name = $("#coach-name").val();
+    cond.coach_id = $("#coach-id").val();
+    cond.coach_phone = $("#coach-phone").val();
+    cond.coach_sex = $("#coach-sex").val();
     for(var i = 0; i < athlete_num; ++i)
     {
         cond.athlete_name[i] = $("#athlete-name" + i).val();
@@ -64,7 +68,7 @@ $("#submit").on("click", function () {
     }
     console.log(cond); 
     $.ajax({
-        type: "method",
+        type: "post",
         url: "submit",
         data: cond,
         success: function (data) {
