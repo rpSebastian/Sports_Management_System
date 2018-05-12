@@ -12,6 +12,5 @@ urlpatterns = [
     
     path('group/get_athlete_div/', views.get_athlete_div, name = "group_get_athlete_div"),
 
-    path('group/register/submit', views.group_register_submit, name = "group_register_submit"),
-    url(r'^')
+    path('group/register/submit', views.group_register_submit, name = "group_register_submit")
 ]
