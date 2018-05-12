@@ -8,25 +8,23 @@ from django.db import models
 
 
 class AgeGroup(models.Model):
-    AGE_CHOICES = (('7-8','7-8'),
-                   ('9-10','9-10'),
-                   ('11-12','11-12'),
+    AGE_CHOICES = (('1','7-8'),
+                   ('2','9-10'),
+                   ('3','11-12'),
                    )
-    age_id = models.CharField(max_length = 10)
-    age_name = models.CharField(max_length = 20,choices=AGE_CHOICES)
+    age_name = models.CharField(max_length = 2,choices=AGE_CHOICES)
     
     def __str__(self):
-        return self.age_id+'----'+self.age_name
+        return str(self.pk) +'----'+ self.age_name
 
 
 class Team(models.Model):
-    Team_id = models.CharField(max_length=10)
     Team_account_number = models.CharField('account number', max_length=20)
     Team_account_password = models.CharField('account passward', max_length=20)
     Team_name = models.CharField(max_length=20)
     
     def __str__(self):
-        return self.Team_id +'---'+ self.Team_name
+        return str(self.pk) +'---'+ self.Team_name
     
     
 class Athlete(models.Model):
@@ -36,32 +34,30 @@ class Athlete(models.Model):
                    )
     athelete_team = models.ForeignKey(Team,on_delete=models.CASCADE)
     athelete_age = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
-    athelete_id = models.CharField(max_length = 10)
     athelete_name = models.CharField(max_length = 20)
     athelete_id_cardnumber = models.CharField('id card number',max_length= 20)
     athelete_sex = models.CharField(max_length=6,choices=SEX_CHOICES)
     
     def __str__(self):
-        return self.athelete_id+'---'+self.athelete_name
+        return str(self.pk) +'---'+self.athelete_name
     
     
 class Project(models.Model):
-    PROJECT_CHOICES = (('dangang','dangang'),
-                       ('shuanggang','shuanggang'),
-                       ('diaohuan','diaohuan'),
-                       ('tiaoma','tiaoma'),
-                       ('ziyouticao','ziyouticao'),
-                       ('anma','anma'),
-                       ('bengchuang','bengchuang'),
-                       ('gaodigang','gapdigang'),
-                       ('pinghenmu','pinghenmu'),
-                       ('bengchuang','bengchuang'),)
-    Project_id = models.CharField(max_length=10)
-    Project_name = models.CharField(max_length=20,choices=PROJECT_CHOICES)
+    PROJECT_CHOICES = (('1','单杠'),
+                       ('2','双杠'),
+                       ('3','吊环'),
+                       ('4','跳马'),
+                       ('5','自由体操'),
+                       ('6','鞍马'),
+                       ('7','蹦床'),
+                       ('8','高低杠'),
+                       ('9','平衡木'),
+                                    )
+    Project_name = models.CharField(max_length=4,choices=PROJECT_CHOICES)
     Project_agegroup = models.ForeignKey(AgeGroup,on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.Project_id+'---'+self.Project_name
+        return str(self.pk) + '---'+ self.Project_name
     
     
 class TeamLeader(models.Model):
@@ -71,7 +67,7 @@ class TeamLeader(models.Model):
     TeamLeader_Phonenumber = models.CharField('phone number',max_length = 11)
     
     def __str__(self):
-        return self.pk+'---'+self.TeamLeader_name
+        return str(self.pk) +'---'+self.TeamLeader_name
     
     
 class TeamDoctor(models.Model):
@@ -81,14 +77,23 @@ class TeamDoctor(models.Model):
     TeamDoctor_Phonenumber = models.CharField('phone number',max_length= 11)
     
     def __str__(self):
-        return self.pk+'---'+self.TeamDoctor_name
+        return str(self.pk)+'---'+self.TeamDoctor_name
+
+
+SEX_CHOICES = (
+    ('1', 'Male'),
+    ('2', 'Female'),
+)
+class Judge(models.Model):
+    Judge_name  = models.CharField(max_length=20)
+    Judge_id_cardnumber = models.CharField('id card number',max_length=20)
+    Judge_Phonenumber = models.CharField('phone number',max_length=11)
     
+    def __str__(self):
+        return str(self.pk) +'---'+self.Judge_name
     
+
 class TeamInstructor(models.Model):
-    SEX_CHOICES = (
-        ('F', 'Female'),
-        ('M', 'Male'),
-    )
     TeamInstructor_team = models.ForeignKey(Team,on_delete=models.CASCADE)
     TeamInstructor_name = models.CharField(max_length=20)
     TeamInstructor_id_cardnumber = models.CharField('id card number',max_length=20)
@@ -96,16 +101,7 @@ class TeamInstructor(models.Model):
     TeamInstructor_sex = models.CharField(max_length=2,choices = SEX_CHOICES)
     
     def __str__(self):
-        return self.pk+'---'+self.TeamInstructor_name
-    
-
-class Judge(models.Model):
-    Judge_name  = models.CharField(max_length=20)
-    Judge_id_cardnumber = models.CharField('id card number',max_length=20)
-    Judge_Phonenumber = models.CharField('phone number',max_length=11)
-    
-    def __str__(self):
-        return self.pk +'---'+self.Judge_name
+        return str(self.pk) +'---'+self.TeamInstructor_name
     
 
 class Score(models.Model):
@@ -118,7 +114,7 @@ class Score(models.Model):
     Score_Value = models.CharField(max_length=5)
     
     def __str__(self):
-        return self.athlete.athelete_id +'---'+self.project.Project_id +'---'+self.judge.pk
+        return str(self.athlete.pk) +'---'+self.project.pk +'---'+self.judge.pk
     
     class Meta:
         unique_together = ("athlete","project","judge")
@@ -131,7 +127,7 @@ class Participate(models.Model):
     group_number = models.CharField(max_length=5)
     
     def __str__(self):
-        return self.athlete.athelete_id +'---'+self.athlete.athelete_name
+        return str(self.athlete.pk) +'---'+self.athlete.athelete_name
     
     class Meta:
         unique_together = ("athlete","project")
