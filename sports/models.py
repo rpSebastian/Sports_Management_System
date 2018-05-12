@@ -28,6 +28,7 @@ class Team(models.Model):
     def __str__(self):
         return self.Team_id +'---'+ self.Team_name
     
+    
 class Athlete(models.Model):
     SEX_CHOICES = (
                     ('F','Female'),
@@ -63,47 +64,48 @@ class Project(models.Model):
         return self.Project_id+'---'+self.Project_name
     
     
-
-    
-    
 class TeamLeader(models.Model):
     TeamLeader_team = models.ForeignKey(Team,on_delete=models.CASCADE)
-    TeamLeader_id = models.CharField(max_length=10)
     TeamLeader_name = models.CharField(max_length= 20)
     TeamLeader_id_cardnumber = models.CharField('id card number',max_length=10)
+    TeamLeader_Phonenumber = models.CharField('phone number',max_length = 11)
     
     def __str__(self):
-        return self.TeamLeader_id+'---'+self.TeamLeader_name
+        return self.pk+'---'+self.TeamLeader_name
     
     
 class TeamDoctor(models.Model):
     TeamDoctor_team = models.ForeignKey(Team,on_delete=models.CASCADE)
-    TeamDoctor_id = models.CharField(max_length = 10)
     TeamDoctor_name = models.CharField(max_length= 20)
     TeamDoctor_id_cardnumber = models.CharField('id card number',max_length=20)
+    TeamDoctor_Phonenumber = models.CharField('phone number',max_length= 11)
     
     def __str__(self):
-        return self.TeamDoctor_id+'---'+self.TeamDoctor_name
+        return self.pk+'---'+self.TeamDoctor_name
     
     
 class TeamInstructor(models.Model):
+    SEX_CHOICES = (
+        ('F', 'Female'),
+        ('M', 'Male'),
+    )
     TeamInstructor_team = models.ForeignKey(Team,on_delete=models.CASCADE)
-    TeamInstructor_id = models.CharField(max_length=10)
     TeamInstructor_name = models.CharField(max_length=20)
     TeamInstructor_id_cardnumber = models.CharField('id card number',max_length=20)
+    TeamInstructor_Phonenumberv = models.CharField('phone number',max_length=11)
+    TeamInstructor_sex = models.CharField(max_length=2,choices = SEX_CHOICES)
     
     def __str__(self):
-        return self.TeamInstructor_id+'---'+self.TeamInstructor_name
+        return self.pk+'---'+self.TeamInstructor_name
     
 
 class Judge(models.Model):
-    Judge_id = models.CharField(max_length=10)
-    Judge_name = models.CharField(max_length=20)
+    Judge_name  = models.CharField(max_length=20)
     Judge_id_cardnumber = models.CharField('id card number',max_length=20)
     Judge_Phonenumber = models.CharField('phone number',max_length=11)
     
     def __str__(self):
-        return self.Judge_id +'---'+self.Judge_name
+        return self.pk +'---'+self.Judge_name
     
 
 class Score(models.Model):
@@ -116,7 +118,7 @@ class Score(models.Model):
     Score_Value = models.CharField(max_length=5)
     
     def __str__(self):
-        return self.athlete.athelete_id +'---'+self.project.Project_id +'---'+self.judge.Judge_id
+        return self.athlete.athelete_id +'---'+self.project.Project_id +'---'+self.judge.pk
     
     class Meta:
         unique_together = ("athlete","project","judge")
