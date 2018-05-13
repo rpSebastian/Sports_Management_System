@@ -47,7 +47,7 @@ def group_register_submit(request):
         athlete_age = athlete_age_group)
         
         for project_name in athlete_projects:
-            project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age)
+            project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age_group)
             participate = Participate(Athlete = athlete, Project = project)
             participate.save()
 
