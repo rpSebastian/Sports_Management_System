@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db import models
 from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup
+import random
 
 # Create your views here.
 
@@ -94,4 +95,15 @@ def insert_default_table(request):
             project.save()
     return HttpResponse("ok")
 
-
+def arrange_match(request):
+    for project in Project.objects.all():
+        athletes = Participate.objects.filter(project = project)
+        num = len(athletes)
+        out += str(num) + " "
+        list = [i for i in range(0, num)]
+        random.shuffle(list)
+        for i, athlete in enumerate(athletes):
+            athlete.group_number = list[i] / 6 + 1
+            athlete.serial_number = list[i] % 6 + 1
+            athlete.save()
+    return HttpResponse("ok");

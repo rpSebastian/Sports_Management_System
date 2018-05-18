@@ -14,5 +14,7 @@ urlpatterns = [
 
     path('group/register/submit', views.group_register_submit, name = "group_register_submit"),
 
-    path('insert_default_table', views.insert_default_table, name = "insert_default_table")
+    path('insert_default_table', views.insert_default_table, name = "insert_default_table"),
+    
+    path('arrange_match', views.arrange_match, name = "arrange_match")
 ]
