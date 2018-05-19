@@ -137,7 +137,7 @@ class Score(models.Model):
     Score_Value = models.CharField(max_length=5)
     
     def __str__(self):
-        return str(self.athlete.pk) +'---'+self.project.pk +'---'+self.judge.pk
+        return str(self.athlete.pk) +'---'+str(self.project.pk) +'---'+str(self.judge.pk)
     
     class Meta:
         unique_together = ("athlete","project","judge")
@@ -147,12 +147,10 @@ class Participate(models.Model):
     athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
     project = models.ForeignKey(Project,on_delete=models.ProtectedError)
     serial_number = models.IntegerField(default=0)
-    group_number = models.IntegerField(default=0    )
+    group_number = models.IntegerField(default=0)
     
     def __str__(self):
         return str(self.athlete.pk) +'---'+self.athlete.athlete_name+'---'+str(self.project)
     
-
-
     class Meta:
         unique_together = ("athlete","project")
