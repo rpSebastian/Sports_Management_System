@@ -27,4 +27,7 @@ urlpatterns = [
     path('alljudge/score/get_group_num/', views.alljudge_get_group_num, name="alljudge_get_group_num"),
 
     path('alljudge/score/get_form/', views.alljudge_get_form, name="alljudge_get_form"),
+    
+    path('judge/score/update_score/', views.judge_update_score, name = "judge_update_score")
+    
 ]
