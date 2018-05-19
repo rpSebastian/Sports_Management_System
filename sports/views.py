@@ -143,3 +143,43 @@ def judge_get_form(request):
         data['athlete'].append(athlete_info)
         
     return JsonResponse(data)
+
+
+def alljudge_score(request):
+    return render(request, "sports/all-judge-score.html", locals())
+
+
+def alljudge_get_group_num(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name=age)
+    project_id = request.POST["project"]
+
+    project = Project.objects.get(Project_name=project_id, Project_agegroup=age_group, Project_sex=sex)
+    athletes = Participate.objects.filter(project=project)
+
+    num = len(athletes)
+    num = (int(num) - 1) // 6 + 1
+    return HttpResponse(num)
+
+
+def alljudge_get_form(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name=age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name=project_id, Project_agegroup=age_group, Project_sex=sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project=project, group_number=group).order_by("serial_number")
+
+    data = {}
+    data['number'] = len(athletes)
+    data['athlete'] = []
+    for athlete in athletes:
+        athlete = athlete.athlete
+        athlete_info = {}
+        athlete_info["name"] = athlete.athlete_name;
+        athlete_info["team"] = athlete.athlete_team.Team_name;
+        data['athlete'].append(athlete_info)
+
+    return JsonResponse(data)

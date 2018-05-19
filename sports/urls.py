@@ -20,6 +20,11 @@ urlpatterns = [
 
     path('judge/score/get_group_num/', views.judge_get_group_num, name = "judge_get_group_num"),
 
-    path('judge/score/get_form/', views.judge_get_form, name = "judge_get_form")
-    
+    path('judge/score/get_form/', views.judge_get_form, name = "judge_get_form"),
+
+    path('alljudge/score/', views.alljudge_score, name = "alljudge_score"),
+
+    path('alljudge/score/get_group_num/', views.alljudge_get_group_num, name="alljudge_get_group_num"),
+
+    path('alljudge/score/get_form/', views.alljudge_get_form, name="alljudge_get_form"),
 ]

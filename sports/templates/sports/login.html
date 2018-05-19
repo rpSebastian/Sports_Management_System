@@ -1,0 +1,84 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> {% comment %}
+  <link rel="icon" href="favicon.ico" /> {% endcomment %}
+  <!--jquery库-->
+  <script src="{% static 'sports/js/jquery.min.js' %}"></script>
+  <!--bootstrap库-->
+  <link href="{% static 'sports/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <script src="{% static 'sports/js/bootstrap/bootstrap.min.js' %}"></script>
+  <!--[if lt IE 9]>
+      <script src="js/bootstrap/html5shiv.min.js"></script>
+      <script src="js/bootstrap/respond.min.js"></script>
+    <![endif]-->
+  <!--font-awesome字体库-->
+  <link href="{% static 'sports/css/font-awesome.min.css' %}" rel="stylesheet" />
+
+  <script src="{% static 'sports/js/pace/pace.min.js' %}"></script>
+  <!--jquery.hammer手势插件-->
+  <script src="{% static 'sports/js/jquery.hammer/hammer.min.js' %}"></script>
+  <script src="{% static 'sports/js/jquery.hammer/jquery.hammer.js' %}"></script>
+  <!--平滑滚动到顶部库-->
+  <script src="{% static 'sports/js/jquery.scrolltopcontrol/scrolltopcontrol.js' %}" type="text/javascript"></script>
+  <!--主要写的jquery拓展方法-->
+  <script src="{% static 'sports/js/jquery.extend.js' %}" type="text/javascript"></script>
+  <!--主要写的css代码-->
+  <link href="{% static 'sports/css/default.css' %}" rel="stylesheet" type="text/css" />
+  <!--主要写的js代码-->
+  <script src="{% static 'sports/js/default.js' %}" type="text/javascript"></script>
+  <!-- sweetalert插件 -->
+  <script src="{% static 'sports/js/sweet-alert.min.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'sports/css/sweet-alert.css' %}">
+    <link href="{% static 'sports/css/login.css' %}" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+  <title>登陆</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form row col-md-offset-4">
+             <div class="form-horizontal col-md-offset-1" id="login_form">
+                <h2 class="form-title" style="font-family: '微软雅黑 Light';">代表队登陆</h2>
+                <div class="col-md-11">
+                    <div class="form-group">
+                        <i class="fa fa-user fa-lg"></i>
+                        <input class="form-control required" type="text" placeholder="Username" id="username" name="username" autofocus="autofocus" maxlength="20"/>
+                    </div>
+                    <div class="form-group">
+                            <i class="fa fa-lock fa-lg"></i>
+                            <input class="form-control required" type="password" placeholder="Password" id="password" name="password" maxlength="16"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="1"/>记住我
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" name="submit" >登录</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+            <div class="col-md-11" id="regist"><h4 align="center" style="font-size: 18px;font-family: '微软雅黑 Light';">没有账号？<a href="#">注册</a></div>
+        </div>
+    </div>
+  <script>
+    $.ajaxSetup({
+      headers: {
+        "X-CSRFToken": '{{ csrf_token }}'
+      }
+    });
+  </script>
+  </body>
+
+</html>
