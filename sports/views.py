@@ -176,6 +176,7 @@ def alljudge_get_form(request):
     data = {}
     data['number'] = len(athletes)
     data['athlete'] = []
+    out = ""
     for athlete in athletes:
         athlete = athlete.athlete
         athlete_info = {}
@@ -183,7 +184,18 @@ def alljudge_get_form(request):
         athlete_info["team"] = athlete.athlete_team.Team_name;
         data['athlete'].append(athlete_info)
 
+        score_info = {}
+        judge_score = []
+        scores = Score.objects.filter(project = project, athlete = athlete)
+        for score in scores:
+            judge_score.append(score.Score_Value)
+        score_info["judge"] = judge_score
+        
+        data['athlete'].append(score_info)
+        data["num"] = len(scores)
+     
     return JsonResponse(data)
+
 def judge_update_score(request):
     judge = Judge.objects.get(pk = 1)
 
