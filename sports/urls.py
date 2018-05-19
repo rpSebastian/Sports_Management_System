@@ -20,6 +20,8 @@ urlpatterns = [
 
     path('judge/score/get_group_num/', views.judge_get_group_num, name = "judge_get_group_num"),
 
-    path('judge/score/get_form/', views.judge_get_form, name = "judge_get_form")
+    path('judge/score/get_form/', views.judge_get_form, name = "judge_get_form"),
+    
+    path('judge/score/update_score/', views.judge_update_score, name = "judge_update_score")
     
 ]

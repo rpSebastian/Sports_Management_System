@@ -3,7 +3,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db import models
-from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup
+from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor
+from .models import Project, Participate, AgeGroup, Judge, Score
 import random
 
 # Create your views here.
@@ -143,3 +144,27 @@ def judge_get_form(request):
         data['athlete'].append(athlete_info)
         
     return JsonResponse(data)
+
+def judge_update_score(request):
+    judge = Judge.objects.get(pk = 1)
+
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
+    num = len(athletes)
+    scores = request.POST.getlist("athlete_score[]")
+
+    for i, athlete in enumerate(athletes):
+        athlete = athlete.athlete
+        score = scores[i]
+    
+        new_score, created = Score.objects.get_or_create(athlete = athlete, project = project, judge = judge, 
+                         Score_Type = 'PCS')
+        new_score.Score_Value = score
+        new_score.save()
+
+    return HttpResponse(len(scores))
