@@ -36,7 +36,7 @@
   <!-- sweetalert插件 -->
   <script src="{% static 'sports/js/sweet-alert.min.js' %}"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'sports/css/sweet-alert.css' %}"> {% block css %} {% endblock %}
-  <title>运动会代表队管理</title>
+  <title>裁判打分管理</title>
 </head>
 
 <body>
@@ -56,7 +56,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'sports:group_index' %}">运动会代表队</a>
+        <a class="navbar-brand" href="{% url 'sports:judge_score' %}">运动会裁判</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
@@ -106,7 +106,7 @@
   <div class="container-fluid all">
     <div class="sidebar">
       <ul class="nav">
-        {% include "sports/group-left-tree.html" %}
+        {% include "sports/judge-left-tree.html" %}
       </ul>
     </div>
     <div class="maincontent row">

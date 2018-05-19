@@ -99,11 +99,47 @@ def arrange_match(request):
     for project in Project.objects.all():
         athletes = Participate.objects.filter(project = project)
         num = len(athletes)
-        out += str(num) + " "
         list = [i for i in range(0, num)]
         random.shuffle(list)
         for i, athlete in enumerate(athletes):
             athlete.group_number = list[i] / 6 + 1
             athlete.serial_number = list[i] % 6 + 1
             athlete.save()
-    return HttpResponse("ok");
+    return HttpResponse("ok")
+
+def judge_score(request):
+    return render(request, "sports/judge-score.html", locals())    
+
+def judge_get_group_num(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    athletes = Participate.objects.filter(project = project)
+
+    num = len(athletes)
+    num = (int(num) - 1) // 6 + 1
+    return HttpResponse(num)
+
+def judge_get_form(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
+    
+    data = {}
+    data['number'] = len(athletes)
+    data['athlete'] = []
+    for athlete in athletes:
+        athlete = athlete.athlete
+        athlete_info = {}
+        athlete_info["name"] = athlete.athlete_name;
+        athlete_info["team"] = athlete.athlete_team.Team_name;
+        data['athlete'].append(athlete_info)
+        
+    return JsonResponse(data)
