@@ -78,7 +78,7 @@ class Project(models.Model):
             2: 'Female',
         }
         dic = {1: '7-8', 2: '9-10', 3: '11-12'}
-        return str(self.pk) + '---'+ PROJECT_CHOICES[int(self.Project_name)] +'---'\
+        return PROJECT_CHOICES[int(self.Project_name)] +'---'\
                + dic[int(self.Project_agegroup.age_name)]\
                +'---'+ SEX_CHOICES[int(self.Project_sex)]
     
@@ -141,7 +141,7 @@ class Score(models.Model):
     
     class Meta:
         unique_together = ("athlete","project","judge")
-        
+    
         
 class Participate(models.Model):
     athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
@@ -154,3 +154,21 @@ class Participate(models.Model):
     
     class Meta:
         unique_together = ("athlete","project")
+
+
+class FinalScore(models.Model):
+    SCORE_TYPE_CHOICES= (('PCS','preliminary competition scores'),
+                         ('FCS','final competition scores'),)
+    athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
+    project = models.ForeignKey(Project,on_delete=models.ProtectedError)
+    Score_Type = models.CharField(max_length=3)
+    Score_Value = models.CharField(max_length=5)
+    Reward_Point = models.CharField(max_length=5)
+    Punish_Point = models.CharField(max_length=5)
+
+    def __str__(self):
+        return str(self.athlete.athlete_name) + '---' + str(self.project) + '---' + str(self.Score_Value)
+    
+    class Meta:
+        unique_together = ("athlete","project")
+    
