@@ -21,6 +21,7 @@ def group_index(request):
     return render(request, "sports/group-index.html", locals())    
 
 def group_register(request):
+    print(request.session['teamname'])
     return render(request, "sports/group-register.html", locals())    
 
 def get_athlete_div(request):
@@ -170,8 +171,10 @@ def alljudge_get_group_num(request):
 
     project = Project.objects.get(Project_name=project_id, Project_agegroup=age_group, Project_sex=sex)
     athletes = Participate.objects.filter(project=project)
+    num = len(athletes)
+    num = (int(num) - 1) // 6 + 1
+    return HttpResponse(num)
 
-<<<<<<< HEAD
 def pre_login(request):
     return render(request, "sports/login.html")
     
@@ -216,14 +219,11 @@ def team_register(request):
     user = User.objects.create_user(username = username,password = password)
     user.save()
     user = authenticate(username = username,password = password)
-    # print(User.objects.get(username = username))
+    print(User.objects.get(username = username))
     team_user = Team_User.objects.create(user = user,teamname =teamname)
     team_user.save()
     return HttpResponse(1)
-=======
-    num = len(athletes)
-    num = (int(num) - 1) // 6 + 1
-    return HttpResponse(num)
+
 
 
 def alljudge_get_form(request):
@@ -304,4 +304,3 @@ def alljudge_update_score(request):
         new_score.save()
         
     return HttpResponse("ok")
->>>>>>> 3cdc6ab892624c4d8fa38068e341d173ac1cf068
