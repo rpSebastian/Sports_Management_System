@@ -12,5 +12,15 @@ urlpatterns = [
     
     path('group/get_athlete_div/', views.get_athlete_div, name = "group_get_athlete_div"),
 
-    path('group/register/submit', views.group_register_submit, name = "group_register_submit")
+    path('group/register/submit', views.group_register_submit, name = "group_register_submit"),
+
+    path('insert_default_table', views.insert_default_table, name = "insert_default_table"),
+    
+    path('login',views.login,name = "group_login"),
+    
+    path('pre_login',views.pre_login),
+    
+    path('register',views.team_register),
+    
+    path('pre_register',views.pre_team_register)
 ]

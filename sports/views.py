@@ -4,6 +4,13 @@ from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db import models
 from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup
+from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup,Team_User
+from django.http import HttpResponseRedirect
+from django.contrib.auth.views import login,logout
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.contrib import auth
+
 
 # Create your views here.
 
