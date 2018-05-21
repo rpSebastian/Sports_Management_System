@@ -70,7 +70,7 @@ $("#submit").on("click", function () {
     console.log(cond); 
     $.ajax({
         type: "post",
-        url: "submit",
+        url: "submit/",
         data: cond,
         traditional: true,
         success: function (data) {

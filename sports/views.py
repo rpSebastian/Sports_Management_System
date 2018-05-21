@@ -11,6 +11,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib import auth
 
+from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor
+from .models import Project, Participate, AgeGroup, Judge, Score, FinalScore
+import random
 
 # Create your views here.
 
@@ -105,7 +108,70 @@ def insert_default_table(request):
             project.save()
     return HttpResponse("ok")
 
+def arrange_match(request):
+    for project in Project.objects.all():
+        athletes = Participate.objects.filter(project = project)
+        num = len(athletes)
+        list = [i for i in range(0, num)]
+        random.shuffle(list)
+        for i, athlete in enumerate(athletes):
+            athlete.group_number = list[i] / 6 + 1
+            athlete.serial_number = list[i] % 6 + 1
+            athlete.save()
+    return HttpResponse("ok")
 
+def judge_score(request):
+    return render(request, "sports/judge-score.html", locals())    
+
+def judge_get_group_num(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    athletes = Participate.objects.filter(project = project)
+
+    num = len(athletes)
+    num = (int(num) - 1) // 6 + 1
+    return HttpResponse(num)
+
+def judge_get_form(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
+    
+    data = {}
+    data['number'] = len(athletes)
+    data['athlete'] = []
+    for athlete in athletes:
+        athlete = athlete.athlete
+        athlete_info = {}
+        athlete_info["name"] = athlete.athlete_name;
+        athlete_info["team"] = athlete.athlete_team.Team_name;
+        data['athlete'].append(athlete_info)
+        
+    return JsonResponse(data)
+
+
+def alljudge_score(request):
+    return render(request, "sports/all-judge-score.html", locals())
+
+
+def alljudge_get_group_num(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name=age)
+    project_id = request.POST["project"]
+
+    project = Project.objects.get(Project_name=project_id, Project_agegroup=age_group, Project_sex=sex)
+    athletes = Participate.objects.filter(project=project)
+
+<<<<<<< HEAD
 def pre_login(request):
     return render(request, "sports/login.html")
     
@@ -154,3 +220,88 @@ def team_register(request):
     team_user = Team_User.objects.create(user = user,teamname =teamname)
     team_user.save()
     return HttpResponse(1)
+=======
+    num = len(athletes)
+    num = (int(num) - 1) // 6 + 1
+    return HttpResponse(num)
+
+
+def alljudge_get_form(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name=age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name=project_id, Project_agegroup=age_group, Project_sex=sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project=project, group_number=group).order_by("serial_number")
+
+    data = {}
+    data['number'] = len(athletes)
+    data['athlete'] = []
+    out = ""
+    for athlete in athletes:
+        athlete = athlete.athlete
+        athlete_info = {}
+        athlete_info["name"] = athlete.athlete_name;
+        athlete_info["team"] = athlete.athlete_team.Team_name;
+        data['athlete'].append(athlete_info)
+
+        score_info = {}
+        judge_score = []
+        scores = Score.objects.filter(project = project, athlete = athlete)
+        for score in scores:
+            judge_score.append(score.Score_Value)
+        score_info["judge"] = judge_score
+        
+        data['athlete'].append(score_info)
+        data["num"] = len(scores)
+     
+    return JsonResponse(data)
+
+def judge_update_score(request):
+    judge = Judge.objects.get(pk = 1)
+
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
+    num = len(athletes)
+    scores = request.POST.getlist("athlete_score[]")
+
+    for i, athlete in enumerate(athletes):
+        athlete = athlete.athlete
+        score = scores[i]
+        new_score, created = Score.objects.get_or_create(athlete = athlete, project = project, judge = judge, 
+                         Score_Type = 'PCS')
+        new_score.Score_Value = score
+        new_score.save()
+
+    return HttpResponse(len(scores))
+
+def alljudge_update_score(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    age_group = AgeGroup.objects.get(age_name = age)
+    project_id = request.POST["project"]
+    project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    group = request.POST['group']
+    athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
+    num = len(athletes)
+    scores = request.POST.getlist("athlete_score[]")
+    punish_points = request.POST.getlist("athlete_punish[]")
+    reward_points = request.POST.getlist("athlete_reward[]")
+
+    for i, athlete in enumerate(athletes):
+        athlete = athlete.athlete
+        score = scores[i + 1]
+        new_score, created = FinalScore.objects.get_or_create(athlete = athlete, project = project, Score_Type = 'PCS')
+        new_score.Score_Value = score
+        new_score.Punish_Point = punish_points[i + 1]
+        new_score.Reward_Point = reward_points[i + 1] 
+        new_score.save()
+        
+    return HttpResponse("ok")
+>>>>>>> 3cdc6ab892624c4d8fa38068e341d173ac1cf068
