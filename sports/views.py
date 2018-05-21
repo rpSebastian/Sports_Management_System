@@ -3,9 +3,9 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect, JsonRespons
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.db import models
-from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup
 from .models import Team, TeamLeader, TeamInstructor, Athlete, TeamDoctor, Project, Participate, AgeGroup,Team_User
 from django.http import HttpResponseRedirect
+from django.contrib import auth
 from django.contrib.auth.views import login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -42,20 +42,35 @@ def group_register_submit(request):
     coach_phone = request.POST['coach_phone']
     coach_sex = request.POST['coach_sex']
 
-    athlete_num = request.POST["athlete_num"]
+    athlete_num = int(request.POST["athlete_num"])
+    
     for i in range(athlete_num):
-        athlete_name = request.POST["athlete_name" + str(i)]
-        athlete_id = request.POST["athlete_id" + str(i)]
-        athlete_sex = request.POST["athlete_sex" + str(i)]
-
-        athlete_age_group = AgeGroup.filter(age_name = request.POST["athlete_age" + str(i)])
-        athlete_projects = request.POST["athlete_project" + str(i)]
-        athlete = Athlete(athlete_team = team[0], athlete_name = athlete_name, athelete_id_cardnumber = athlete_id, athlete_sex = athlete_sex, 
-        athlete_age = athlete_age_group)
+        athlete_names = request.POST.getlist("athlete_name")
+        athlete_name = athlete_names[i]
+        athlete_ids = request.POST.getlist("athlete_id")
+        athlete_id = athlete_ids[i]
+        athlete_sexs = request.POST.getlist("athlete_sex")
+        athlete_sex = athlete_sexs[i]
         
+        athlete_age_groups = request.POST.getlist("athlete_age")
+        athlete_age_group_id = athlete_age_groups[i]
+        athlete_age_group = AgeGroup.objects.get(age_name = athlete_age_group_id)
+
+        athlete_projectsss = request.POST.getlist("athlete_project")
+        athlete_projectss = athlete_projectsss[i]
+        athlete_projects = athlete_projectss.split(',')
+
+        athlete = Athlete(athlete_team = team[0], athlete_name = athlete_name, athlete_id_cardnumber = athlete_id, athlete_sex = athlete_sex, 
+        athlete_age = athlete_age_group)
+        athlete.save()
+
         for project_name in athlete_projects:
+
             project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age_group)
             participate = Participate(Athlete = athlete, Project = project)
+
+            project = Project.objects.get(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
+            participate = Participate(athlete = athlete, project = project)
             participate.save()
 
     captain = TeamLeader(TeamLeader_team = team[0], TeamLeader_name = captain_name,
@@ -66,10 +81,76 @@ def group_register_submit(request):
     TeamDoctor_id_cardnumber = doctor_id,TeamDoctor_Phonenumber = doctor_phone)
     doctor.save()
     
-    coach = TeamInstructor(TeamInstructor_team = team[0], name=coach_name,
+    coach = TeamInstructor(TeamInstructor_team = team[0], TeamInstructor_name=coach_name,
     TeamInstructor_id_cardnumber=coach_id, TeamInstructor_sex = coach_sex, TeamInstructor_Phonenumberv = coach_phone)
     coach.save()
 
     return HttpResponse("ok")
 
+def insert_default_table(request):
+    sex_id = 1
+    for age_group_id in range(1, 4):
+        for project_id in range(1, 8):
+            ageGroup = AgeGroup.objects.get(pk = age_group_id)   
+            project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
+            project.save()
+    
+    a = [4, 8, 9, 5, 7]
+    sex_id = 2
+    for age_group_id in range(1, 4):
+        for a_id in range(5):
+            project_id = a[a_id]
+            ageGroup = AgeGroup.objects.get(pk = age_group_id)   
+            project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
+            project.save()
+    return HttpResponse("ok")
 
+
+def pre_login(request):
+    return render(request, "sports/login.html")
+    
+
+
+
+def login(request):
+    username = request.POST.get('username',False)
+    password = request.POST.get('password',False)
+    print(request.POST)
+    # username = request.POST['username']
+    # password = request.POST['password']
+    print(username)
+    print(password)
+    user = authenticate(username = username,password = password)
+    if user is not None and user.is_active:
+        auth.login(request,user)
+        team_user = Team_User.objects.get(user = user)
+        team_name = team_user.teamname
+        request.session['teamname'] = team_name
+        print("right")
+        print(request.session['teamname'])
+        return HttpResponse(1)
+    else:
+        return HttpResponse(2)
+    
+    
+def pre_team_register(request):
+    return render(request,"sports/register.html",locals())
+
+
+def team_register(request):
+    username = request.POST.get("username",False)
+    password = request.POST.get("password",False)
+    teamname = request.POST.get("teamname",False)
+    # username = request.POST["username"]
+    # password = request.POST["password"]
+    # teamname = request.POST["teamname"]
+    print(username)
+    print(password)
+    print(teamname)
+    user = User.objects.create_user(username = username,password = password)
+    user.save()
+    user = authenticate(username = username,password = password)
+    # print(User.objects.get(username = username))
+    team_user = Team_User.objects.create(user = user,teamname =teamname)
+    team_user.save()
+    return HttpResponse(1)
