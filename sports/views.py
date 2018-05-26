@@ -21,6 +21,9 @@ def group_index(request):
     return render(request, "sports/group-index.html", locals())    
 
 def group_register(request):
+    
+    teamname = request.session['teamname']
+    
     print(request.session['teamname'])
     return render(request, "sports/group-register.html", locals())    
 
@@ -95,7 +98,7 @@ def insert_default_table(request):
     sex_id = 1
     for age_group_id in range(1, 4):
         for project_id in range(1, 8):
-            ageGroup = AgeGroup.objects.get(pk = age_group_id)   
+            ageGroup = AgeGroup.objects.get(age_name = str(age_group_id))   
             project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
             project.save()
     
@@ -104,7 +107,7 @@ def insert_default_table(request):
     for age_group_id in range(1, 4):
         for a_id in range(5):
             project_id = a[a_id]
-            ageGroup = AgeGroup.objects.get(pk = age_group_id)   
+            ageGroup = AgeGroup.objects.get(age_name = str(age_group_id))   
             project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
             project.save()
     return HttpResponse("ok")
@@ -127,6 +130,8 @@ def judge_score(request):
 def judge_get_group_num(request):
     sex = request.POST["sex"]
     age = request.POST["age"]
+    print(age)
+    print(AgeGroup.objects.all())
     age_group = AgeGroup.objects.get(age_name = age)
     project_id = request.POST["project"]
 
@@ -304,3 +309,10 @@ def alljudge_update_score(request):
         new_score.save()
         
     return HttpResponse("ok")
+
+def score_board(request):
+    return render(request, "sports/board-person.html")
+    
+def score_board_team(request):
+    return render(request, "sports/board-team.html")
+
