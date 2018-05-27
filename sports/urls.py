@@ -45,5 +45,13 @@ urlpatterns = [
     
     path('register',views.team_register),
     
-    path('pre_register',views.pre_team_register)
+    path('pre_register',views.pre_team_register),
+    
+    path('pre_judge_register',views.pre_judge_register),
+    
+    path('judge_register',views.judge_register),
+    
+    path('pre_judge_login',views.pre_judge_login),
+    
+    path('judge_login',views.judge_login),
 ]

@@ -107,7 +107,10 @@ SEX_CHOICES = (
     ('1', 'Male'),
     ('2', 'Female'),
 )
+
+
 class Judge(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
     Judge_name  = models.CharField(max_length=20)
     Judge_id_cardnumber = models.CharField('id card number',max_length=20)
     Judge_Phonenumber = models.CharField('phone number',max_length=11)
@@ -133,7 +136,7 @@ class Score(models.Model):
     athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
     project = models.ForeignKey(Project,on_delete=models.ProtectedError)
     judge = models.ForeignKey(Judge,on_delete=models.ProtectedError)
-    Score_Type = models.CharField(max_length=3)
+    Score_Type = models.CharField(max_length=3,choices=SCORE_TYPE_CHOICES)
     Score_Value = models.CharField(max_length=5)
     
     def __str__(self):
@@ -161,7 +164,7 @@ class FinalScore(models.Model):
                          ('FCS','final competition scores'),)
     athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
     project = models.ForeignKey(Project,on_delete=models.ProtectedError)
-    Score_Type = models.CharField(max_length=3)
+    Score_Type = models.CharField(max_length=3,choices=SCORE_TYPE_CHOICES)
     Score_Value = models.CharField(max_length=5)
     Reward_Point = models.CharField(max_length=5)
     Punish_Point = models.CharField(max_length=5)
@@ -178,4 +181,7 @@ class Team_User(models.Model):
     
     def __str__(self):
         return self.user.username
+    
+    
+
     

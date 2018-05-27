@@ -31,8 +31,13 @@ def get_athlete_div(request):
     return HttpResponse(html)
 
 def group_register_submit(request):
-    team = Team.objects.filter(pk = 1)
     
+    team = Team.objects.filter(Team_name = request.session['teamname'] )[0]
+    # team = Team.objects.create(Team_account_number = '01',
+    #                            Team_account_password = '00',Team_name = request.session['teamname'])
+    #team = Team.objects.filter(pk = 1)
+    
+    # print("----"+team)
     captain_name = request.POST["captain_name"]
     captain_id = request.POST['captain_id']
     captain_phone = request.POST['captain_phone']
@@ -57,45 +62,74 @@ def group_register_submit(request):
         athlete_sex = athlete_sexs[i]
         
         athlete_age_groups = request.POST.getlist("athlete_age")
+        print(athlete_age_groups)
         athlete_age_group_id = athlete_age_groups[i]
+        print(athlete_age_group_id)
+        print(AgeGroup.objects.filter(age_name=athlete_age_group_id))
         athlete_age_group = AgeGroup.objects.get(age_name = athlete_age_group_id)
 
         athlete_projectsss = request.POST.getlist("athlete_project")
         athlete_projectss = athlete_projectsss[i]
         athlete_projects = athlete_projectss.split(',')
 
-        athlete = Athlete(athlete_team = team[0], athlete_name = athlete_name, athlete_id_cardnumber = athlete_id, athlete_sex = athlete_sex, 
-        athlete_age = athlete_age_group)
+        # athlete = Athlete(athlete_team=team, athlete_name=athlete_name, athlete_id_cardnumber=athlete_id,
+        #                   athlete_sex=athlete_sex,
+        #                   athlete_age=athlete_age_group)
+        athlete = Athlete.objects.create(athlete_team=team, athlete_name=athlete_name, athlete_id_cardnumber=athlete_id,
+                          athlete_sex=athlete_sex,
+                          athlete_age=athlete_age_group)
+        # athlete = Athlete(athlete_team = team[0], athlete_name = athlete_name, athlete_id_cardnumber = athlete_id, athlete_sex = athlete_sex,
+        # athlete_age = athlete_age_group)
         athlete.save()
 
         for project_name in athlete_projects:
-
-            project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age_group)
-            participate = Participate(Athlete = athlete, Project = project)
-
-            project = Project.objects.get(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
-            participate = Participate(athlete = athlete, project = project)
+    
+            project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age_group,Project_sex = athlete_sex)[0]
+            # participate = Participate(Athlete = athlete, Project = project)
+            
+            # project = Project.objects.create(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
+            # project = Project.objects.get(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
+            
+            participate  = Participate.objects.create(athlete = athlete, project = project)
+            # participate = Participate(athlete = athlete, project = project)
+            # project.save()
             participate.save()
 
-    captain = TeamLeader(TeamLeader_team = team[0], TeamLeader_name = captain_name,
-    TeamLeader_Phonenumber = captain_phone, TeamLeader_id_cardnumber = captain_id)
+    captain = TeamLeader.objects.create(TeamLeader_team=team, TeamLeader_name=captain_name,
+                         TeamLeader_Phonenumber=captain_phone, TeamLeader_id_cardnumber=captain_id)
     captain.save()
-    
-    doctor = TeamDoctor(TeamDoctor_team = team[0], TeamDoctor_name = doctor_name,
-    TeamDoctor_id_cardnumber = doctor_id,TeamDoctor_Phonenumber = doctor_phone)
+
+    # captain = TeamLeader(TeamLeader_team = team[0], TeamLeader_name = captain_name,
+    # TeamLeader_Phonenumber = captain_phone, TeamLeader_id_cardnumber = captain_id)
+    # captain.save()
+    #
+
+    doctor = TeamDoctor.objects.create(TeamDoctor_team=team, TeamDoctor_name=doctor_name,
+                        TeamDoctor_id_cardnumber=doctor_id, TeamDoctor_Phonenumber=doctor_phone)
     doctor.save()
-    
-    coach = TeamInstructor(TeamInstructor_team = team[0], TeamInstructor_name=coach_name,
-    TeamInstructor_id_cardnumber=coach_id, TeamInstructor_sex = coach_sex, TeamInstructor_Phonenumberv = coach_phone)
+    # doctor = TeamDoctor(TeamDoctor_team = team[0], TeamDoctor_name = doctor_name,
+    # TeamDoctor_id_cardnumber = doctor_id,TeamDoctor_Phonenumber = doctor_phone)
+    # doctor.save()
+
+
+    coach = TeamInstructor.objects.create(TeamInstructor_team=team, TeamInstructor_name=coach_name,
+                           TeamInstructor_id_cardnumber=coach_id, TeamInstructor_sex=coach_sex,
+                           TeamInstructor_Phonenumberv=coach_phone)
     coach.save()
+    # coach = TeamInstructor(TeamInstructor_team = team[0], TeamInstructor_name=coach_name,
+    # TeamInstructor_id_cardnumber=coach_id, TeamInstructor_sex = coach_sex, TeamInstructor_Phonenumberv = coach_phone)
+    # coach.save()
 
     return HttpResponse("ok")
 
 def insert_default_table(request):
     sex_id = 1
+    age_group_dict = {1:'1',2:'2',3:'3'}
+    
     for age_group_id in range(1, 4):
         for project_id in range(1, 8):
-            ageGroup = AgeGroup.objects.get(pk = age_group_id)   
+            print(age_group_dict[age_group_id])
+            ageGroup = AgeGroup.objects.get( age_name = str(age_group_dict[age_group_id]))
             project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
             project.save()
     
@@ -104,7 +138,7 @@ def insert_default_table(request):
     for age_group_id in range(1, 4):
         for a_id in range(5):
             project_id = a[a_id]
-            ageGroup = AgeGroup.objects.get(pk = age_group_id)   
+            ageGroup = AgeGroup.objects.get(age_name = str(age_group_id))
             project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
             project.save()
     return HttpResponse("ok")
@@ -210,6 +244,11 @@ def team_register(request):
     username = request.POST.get("username",False)
     password = request.POST.get("password",False)
     teamname = request.POST.get("teamname",False)
+    
+
+    team = Team.objects.create(Team_account_number = Team_User.pk,
+                               Team_account_password = password,Team_name = teamname)
+    team.save()
     # username = request.POST["username"]
     # password = request.POST["password"]
     # teamname = request.POST["teamname"]
@@ -304,3 +343,47 @@ def alljudge_update_score(request):
         new_score.save()
         
     return HttpResponse("ok")
+
+
+def pre_judge_register(request):
+    return render(request,"sports/judge_register.html")
+
+
+def judge_register(request):
+    username = request.POST.get("username",False)
+    password = request.POST.get("password",False)
+    judgename = request.POST.get("judgename",False)
+    idcardnumber = request.POST.get("idcardnumber",False)
+    phonenumber = request.POST.get("phonenumber",False)
+    print(username)
+    print(password)
+    user = User.objects.create_user(username = username,password = password)
+    user.save()
+    judge = Judge.objects.create(user = user,Judge_name = judgename,
+                                 Judge_id_cardnumber = idcardnumber,Judge_Phonenumber = phonenumber)
+    judge.save()
+    return HttpResponse(1)
+    
+    
+
+def pre_judge_login(request):
+    return render(request, "sports/judge_login.html")
+
+
+def judge_login(request):
+    username = request.POST.get('username', False)
+    password = request.POST.get('password', False)
+    print(request.POST)
+    # username = request.POST['username']
+    # password = request.POST['password']
+    print(username)
+    print(password)
+    user = authenticate(username=username, password=password)
+    if user is not None and user.is_active:
+        auth.login(request, user)
+        judge = Judge.objects.get(user=user)
+        request.session['judge'] = judge
+        print("right")
+        return HttpResponse(1)
+    else:
+        return HttpResponse(2)
