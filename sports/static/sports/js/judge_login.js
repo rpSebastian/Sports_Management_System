@@ -11,7 +11,7 @@ $(document).on("click", "#login", function () {
         success:function (data) {
             console.log(data);
             if (data == "1"){
-                window.location.href = "../sports/group/register/"
+                window.location.href = "../sports/judge/score"
                 // window.location.href("../group-register.html/")
             }
             if(data == "2"){
