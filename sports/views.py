@@ -73,9 +73,6 @@ def group_register_submit(request):
 
         for project_name in athlete_projects:
 
-            project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age_group)
-            participate = Participate(Athlete = athlete, Project = project)
-
             project = Project.objects.get(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
             participate = Participate(athlete = athlete, project = project)
             participate.save()
@@ -316,3 +313,18 @@ def score_board(request):
 def score_board_team(request):
     return render(request, "sports/board-team.html")
 
+def board_person_get_form(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    if (age == ""):
+        age_group = AgeGroup.objects.all()
+    else:
+        age_group = AgeGroup.objects.get(age_name = age)
+    print(age_group)
+    project_id = request.POST["project"]
+    # project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
+    # athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
+    # print(sex)
+    # print(age)
+    # print(project_id)
+    return HttpResponse("ok")

@@ -37,24 +37,26 @@ urlpatterns = [
     
     path('alljudge/score/update_score/', views.alljudge_update_score, name="alljudge_update_score"),
 
-    path('insert_default_table', views.insert_default_table, name = "insert_default_table"),
+    path('insert_default_table/', views.insert_default_table, name = "insert_default_table"),
     
     # 登陆界面
 
-    path('login',views.login,name = "group_login"),
+    path('login/',views.login,name = "group_login"),
     
-    path('pre_login',views.pre_login, name="pre_login"),
+    path('pre_login/',views.pre_login, name="pre_login"),
     
     # 注册界面
 
-    path('register',views.team_register),
+    path('register/',views.team_register),
     
-    path('pre_register',views.pre_team_register),
+    path('pre_register/',views.pre_team_register),
 
     # 运动会总成绩展示界面
 
-    path('score_board/person',views.score_board, name='score_board'),
+    path('score_board/person/',views.score_board, name='score_board'),
 
-    path('score_board/team',views.score_board_team, name='score_board_team'),
+    path('score_board/person/get_form/', views.board_person_get_form, name="board_person_get_form"),
+    
+    path('score_board/team/',views.score_board_team, name='score_board_team'),
 
 ]
