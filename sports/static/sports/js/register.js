@@ -11,7 +11,7 @@ $(document).on("click", "#register", function () {
     console.log(teamname)
     $.ajax({
         type:"post",
-        url:"../sports/register",
+        url:"../sports/register/",
         data:{
             "username":username,
             "password":password,

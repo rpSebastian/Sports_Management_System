@@ -384,6 +384,9 @@ def judge_login(request):
         return HttpResponse(1)
     else:
         return HttpResponse(2)
+    
+    
+    
 def score_board(request):
     return render(request, "sports/board-person.html")
     
