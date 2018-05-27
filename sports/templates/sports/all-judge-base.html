@@ -106,7 +106,9 @@
   <div class="container-fluid all">
     <div class="sidebar">
       <ul class="nav">
-        {% include "sports/all-judge-left-tree.html" %}
+        <li>
+          <a href="{% url 'sports:alljudge_score' %}">总裁判确认</a>
+        </li>
       </ul>
     </div>
     <div class="maincontent row">

@@ -1,0 +1,113 @@
+{% extends "sports/board-base.html" %} {% load staticfiles %} {% block css %}
+<link href="{% static 'sports/css/board-person.css' %}" rel="stylesheet" type="text/css" /> {% endblock css %}  {% block js %}
+<script src="{% static 'sports/js/board-person.js' %}"></script>
+{% endblock js %}
+{% block content %}
+<ul class="breadcrumb">
+  <li class="active">运动会个人成绩</li>
+</ul>
+<div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label for="select-sex" class="col-sm-3 control-label">项目性别</label>
+        <div class="col-sm-9 sandbox-container">
+          <select class="form-control" id="select-sex">
+            <option></option>
+            <option value="1">男</option>
+            <option value="2">女</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group row">
+        <label for="select-age" class="col-sm-3 control-label">项目年龄组</label>
+        <div class="col-sm-9 sandbox-container">
+          <select class="form-control" id="select-age">
+            <option></option>
+            <option value="1">7-8</option>
+            <option value="2">9-10</option>
+            <option value="3">11-12</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6" id="project-male" style="display:none">
+      <div class="form-group row">
+        <label for="select-project-male" class="col-sm-3 control-label">选择项目</label>
+        <div class="col-sm-9 sandbox-container">
+          <select class="form-control" id="select-project-male">
+            <option></option>
+            <option value="1">单杠</option>
+            <option value="2">双杠</option>
+            <option value="3">吊环</option>
+            <option value="4">跳马</option>
+            <option value="5">自由体操</option>
+            <option value="6">鞍马</option>
+            <option value="7">蹦床</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6" id="project-female" style="display:none">
+      <div class="form-group row">
+        <label for="select-project-female" class="col-sm-3 control-label">选择项目</label>
+        <div class="col-sm-9 sandbox-container">
+          <select class="form-control" id="select-project-female">
+            <option></option>
+            <option value="4">跳马</option>
+            <option value="8">高低杠</option>
+            <option value="9">平衡木</option>
+            <option value="5">自由体操</option>
+            <option value="7">蹦床</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <button type="button" class="btn btn-primary btn-lg btn-block" id="search"> 搜索 </button>
+    </div>
+    <div class="col-sm-12 line mt-1"></div>
+    <div class="form">
+      <div class="col-sm-10 col-sm-offset-1">
+        <div class="table-hover"></div>
+        <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th rowspan="2">项目名</th>
+              <th rowspan="2">项目性别</th>
+              <th rowspan="2">项目年龄组</th>
+              <th colspan="2">第一名</th>
+              <th colspan="2">第二名</th>
+              <th colspan="2">第三名</th>
+              <th colspan="2">第四名</th>
+              <th colspan="2">第五名</th>
+              <th colspan="2">第六名</th>
+            </tr>
+            <tr>
+              <th>姓名</th>
+              <th>成绩</th>
+              <th>姓名</th>
+              <th>成绩</th>
+              <th>姓名</th>
+              <th>成绩</th>
+              <th>姓名</th>
+              <th>成绩</th>
+              <th>姓名</th>
+              <th>成绩</th>
+              <th>姓名</th>
+              <th>成绩</th>
+            </tr>
+          </thead>
+          <tbody class="form-list">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <button type="button" class="btn btn-primary btn-lg btn-block" id="submit" style="display:none"> 提交打分成绩 </button>
+  </div>
+</div>
+{% endblock content %}
