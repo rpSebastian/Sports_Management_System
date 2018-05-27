@@ -86,22 +86,9 @@ def group_register_submit(request):
         athlete.save()
 
         for project_name in athlete_projects:
-<<<<<<< HEAD
-    
-            project = Project.objects.filter(Project_name = project_name, Project_agegroup = athlete_age_group,Project_sex = athlete_sex)[0]
-            # participate = Participate(Athlete = athlete, Project = project)
-            
-            # project = Project.objects.create(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
-            # project = Project.objects.get(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
-            
-            participate  = Participate.objects.create(athlete = athlete, project = project)
-            # participate = Participate(athlete = athlete, project = project)
-            # project.save()
-=======
 
             project = Project.objects.get(Project_name = project_name, Project_agegroup = athlete_age_group, Project_sex = athlete_sex)
             participate = Participate(athlete = athlete, project = project)
->>>>>>> 90f7b9151671aded0e075ec6970999c8e532c1a0
             participate.save()
 
     captain = TeamLeader.objects.create(TeamLeader_team=team, TeamLeader_name=captain_name,
@@ -137,12 +124,7 @@ def insert_default_table(request):
     
     for age_group_id in range(1, 4):
         for project_id in range(1, 8):
-<<<<<<< HEAD
-            print(age_group_dict[age_group_id])
-            ageGroup = AgeGroup.objects.get( age_name = str(age_group_dict[age_group_id]))
-=======
             ageGroup = AgeGroup.objects.get(age_name = str(age_group_id))   
->>>>>>> 90f7b9151671aded0e075ec6970999c8e532c1a0
             project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
             project.save()
     
@@ -151,11 +133,7 @@ def insert_default_table(request):
     for age_group_id in range(1, 4):
         for a_id in range(5):
             project_id = a[a_id]
-<<<<<<< HEAD
-            ageGroup = AgeGroup.objects.get(age_name = str(age_group_id))
-=======
             ageGroup = AgeGroup.objects.get(age_name = str(age_group_id))   
->>>>>>> 90f7b9151671aded0e075ec6970999c8e532c1a0
             project = Project(Project_name = str(project_id), Project_agegroup = ageGroup, Project_sex = str(sex_id))
             project.save()
     return HttpResponse("ok")
@@ -363,7 +341,6 @@ def alljudge_update_score(request):
         
     return HttpResponse("ok")
 
-<<<<<<< HEAD
 
 def pre_judge_register(request):
     return render(request,"sports/judge_register.html")
@@ -407,7 +384,6 @@ def judge_login(request):
         return HttpResponse(1)
     else:
         return HttpResponse(2)
-=======
 def score_board(request):
     return render(request, "sports/board-person.html")
     
@@ -429,4 +405,3 @@ def board_person_get_form(request):
     # print(age)
     # print(project_id)
     return HttpResponse("ok")
->>>>>>> 90f7b9151671aded0e075ec6970999c8e532c1a0

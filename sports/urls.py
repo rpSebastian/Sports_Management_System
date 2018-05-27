@@ -57,7 +57,6 @@ urlpatterns = [
 
     path('score_board/person/get_form/', views.board_person_get_form, name="board_person_get_form"),
     
-<<<<<<< HEAD
     path('pre_register',views.pre_team_register),
     
     path('pre_judge_register',views.pre_judge_register),
@@ -67,8 +66,6 @@ urlpatterns = [
     path('pre_judge_login',views.pre_judge_login),
     
     path('judge_login',views.judge_login),
-=======
     path('score_board/team/',views.score_board_team, name='score_board_team'),
 
->>>>>>> 90f7b9151671aded0e075ec6970999c8e532c1a0
 ]
