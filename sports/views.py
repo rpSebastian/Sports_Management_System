@@ -296,8 +296,7 @@ def alljudge_get_form(request):
     onResponse(data)
 
 def judge_update_score(request):
-    judge = Judge.objects.get(pk = 1)
-
+    judge = Judge.objects.get(Judge_name = request.session['judgename'])
     sex = request.POST["sex"]
     age = request.POST["age"]
     age_group = AgeGroup.objects.get(age_name = age)
