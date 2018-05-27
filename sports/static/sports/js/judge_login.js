@@ -1,10 +1,9 @@
-
 $(document).on("click", "#login", function () {
     var username = $("#username").val();
     var password = $("#password").val();
     $.ajax({
         type:"post",
-        url:"../sports/login",
+        url:"../sports/judge_login",
         data:{
             'username':username,
             'password':password
@@ -18,7 +17,7 @@ $(document).on("click", "#login", function () {
             if(data == "2"){
                 console.log("ggsmd")
                 alert("密码错误，重新输入")
-                location.href = '../sports/pre_login'
+                location.href = '../sports/pre_judge_login'
                 // window.location.href = '../sports/pre_login/';
                 // window.location.href("../pre_login/")
 
