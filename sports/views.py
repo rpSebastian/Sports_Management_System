@@ -292,7 +292,8 @@ def alljudge_get_form(request):
         data['athlete'].append(score_info)
         data["num"] = len(scores)
      
-    return JsonResponse(data)
+    return Js
+    onResponse(data)
 
 def judge_update_score(request):
     judge = Judge.objects.get(pk = 1)
@@ -403,12 +404,22 @@ def board_person_get_form(request):
     age_group = AgeGroup.objects.filter(age_name__icontains = age)
     projects =  Project.objects.filter(Project_name__icontains = project_id, Project_sex__icontains = sex, Project_agegroup__in = age_group)
 
+    data = {}
+    data['project'] = []
     for project in projects:
         athletes = FinalScore.objects.filter(project = project, Score_Type = "PCS").order_by('-Score_Value')
-        
-    return HttpResponse("ok")
+        project_info = []
+        for i in range(0, min(6, len(athletes))):
+            athlete_info = {}
+            athlete = athletes[i].athlete
+            athlete_name = athlete.athlete_name
+            score = athletes[i].Score_Value
+            athlete_info["name"] = athlete_name
+            athlete_info["score"] = score
+            project_info.append(athlete_info)
+        data['project'].append(project_info)
+
+    return JsonResponse(data)
 
 
-    __icontains
-
-    __in
+    

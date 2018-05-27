@@ -66,6 +66,7 @@ urlpatterns = [
     path('pre_judge_login',views.pre_judge_login),
     
     path('judge_login',views.judge_login),
+    
     path('score_board/team/',views.score_board_team, name='score_board_team'),
 
 ]
