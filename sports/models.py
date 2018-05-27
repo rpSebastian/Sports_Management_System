@@ -165,7 +165,7 @@ class FinalScore(models.Model):
     athlete = models.ForeignKey(Athlete,on_delete=models.ProtectedError)
     project = models.ForeignKey(Project,on_delete=models.ProtectedError)
     Score_Type = models.CharField(max_length=3,choices=SCORE_TYPE_CHOICES)
-    Score_Value = models.IntegerField(max_length=5)
+    Score_Value = models.IntegerField(default=0)
     Reward_Point = models.CharField(max_length=5)
     Punish_Point = models.CharField(max_length=5)
 
