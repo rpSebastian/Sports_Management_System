@@ -396,15 +396,17 @@ def score_board_team(request):
 def board_person_get_form(request):
     sex = request.POST["sex"]
     age = request.POST["age"]
-    if (age == ""):
-        age_group = AgeGroup.objects.all()
-    else:
-        age_group = AgeGroup.objects.get(age_name = age)
-    print(age_group)
     project_id = request.POST["project"]
-    # project = Project.objects.get(Project_name = project_id, Project_agegroup = age_group, Project_sex = sex)
-    # athletes = Participate.objects.filter(project = project, group_number = group).order_by("serial_number")
-    # print(sex)
-    # print(age)
-    # print(project_id)
+    
+    age_group = AgeGroup.objects.filter(age_name__icontains = age)
+    projects =  Project.objects.filter(Project_name__icontains = project_id, Project_sex__icontains = sex, Project_agegroup__in = age_group)
+
+    for project in projects:
+        athletes = FinalScore.objects.filter(project = project, Score_Type = "PCS").order_by('-Score_Value')
+        
     return HttpResponse("ok")
+
+
+    __icontains
+
+    __in
