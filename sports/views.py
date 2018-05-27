@@ -379,7 +379,9 @@ def judge_login(request):
     if user is not None and user.is_active:
         auth.login(request, user)
         judge = Judge.objects.get(user=user)
-        request.session['judge'] = judge
+        judgename = judge.Judge_name
+        # request.session['user'] = user
+        request.session['judgename'] = judgename
         print("right")
         return HttpResponse(1)
     else:
