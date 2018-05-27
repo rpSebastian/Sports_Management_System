@@ -57,7 +57,7 @@ urlpatterns = [
 
     path('score_board/person/get_form/', views.board_person_get_form, name="board_person_get_form"),
     
-    path('pre_register',views.pre_team_register),
+    path('pre_register',views.pre_team_register,name="pre_register"),
     
     path('pre_judge_register',views.pre_judge_register),
     
