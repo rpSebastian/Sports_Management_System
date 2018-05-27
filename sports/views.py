@@ -410,6 +410,7 @@ def judge_login(request):
 =======
 def score_board(request):
     return render(request, "sports/board-person.html")
+    
 def score_board_team(request):
     return render(request, "sports/board-team.html")
 
