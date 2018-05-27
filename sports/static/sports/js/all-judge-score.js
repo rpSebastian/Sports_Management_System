@@ -108,9 +108,9 @@ function get_form() {
                 .append('<th>' + '运动员代表队' + '</th>');
             for (var i = 1; i <= data.num; i++) {
                 tr2.append('<th>' + '成绩' + i + '</th>');
-                tr2.append('<th>' + '奖励分' + '</th>');
-                tr2.append('<th>' + '惩罚分' + '</th>');
             }
+            tr2.append('<th>' + '奖励分' + '</th>');
+            tr2.append('<th>' + '惩罚分' + '</th>');
             $(".form-list2").append(tr2);
         },
         error: function () {
@@ -138,20 +138,20 @@ function submit_form() {
         var punish;
         punish = $("#punish-point" + i).val();
         cond.athlete_punish[(i+1)/2] = punish;
-        var max = Data.athlete[i].judge[0];
-        var min = Data.athlete[i].judge[0];
-        var sum = Data.athlete[i].judge[0];
+        var max = Number(Data.athlete[i].judge[0]);
+        var min = Number(Data.athlete[i].judge[0]);
+        var sum = Number(Data.athlete[i].judge[0]);
         var avg = 0;
         for(var j = 1; j < Data.num; j++){
-             if(Data.athlete[i].judge[j] > max){
-                 max = Data.athlete[i].judge[j];
+             if(Number(Data.athlete[i].judge[j]) > max){
+                 max = Number(Data.athlete[i].judge[j]);
              }
-             if(Data.athlete[i].judge[j] < min){
-                 min = Data.athlete[i].judge[j];
+             if(Number(Data.athlete[i].judge[j]) < min){
+                 min = Number(Data.athlete[i].judge[j]);
              }
-             sum += Data.athlete[i].judge[j];
+             sum += Number(Data.athlete[i].judge[j]);
         }
-        avg = sum / Data.num;
+        avg = sum / Number(Data.num);
         if (Data.num > 2){
             sum -= max + min;
             avg = sum / (Data.num-2);

@@ -63,10 +63,11 @@ urlpatterns = [
     
     path('judge_register',views.judge_register),
     
-    path('pre_judge_login',views.pre_judge_login),
+    path('pre_judge_login',views.pre_judge_login, name='pre_judge_login'),
     
     path('judge_login',views.judge_login),
-    
+
     path('score_board/team/',views.score_board_team, name='score_board_team'),
 
+    path('score_board/team/get_form/', views.board_team_get_form, name="board_team_get_form"),
 ]

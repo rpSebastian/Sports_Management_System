@@ -151,6 +151,7 @@ def arrange_match(request):
     return HttpResponse("ok")
 
 def judge_score(request):
+    judge_name = request.session['judgename']
     return render(request, "sports/judge-score.html", locals())    
 
 def judge_get_group_num(request):
@@ -292,8 +293,7 @@ def alljudge_get_form(request):
         data['athlete'].append(score_info)
         data["num"] = len(scores)
      
-    return Js
-    onResponse(data)
+    return JsonResponse(data)
 
 def judge_update_score(request):
     judge = Judge.objects.get(Judge_name = request.session['judgename'])
@@ -407,7 +407,9 @@ def board_person_get_form(request):
     data['project'] = []
     for project in projects:
         athletes = FinalScore.objects.filter(project = project, Score_Type = "PCS").order_by('-Score_Value')
-        project_info = []
+        project_info = {}
+        project_info["athlete"] = []
+
         for i in range(0, min(6, len(athletes))):
             athlete_info = {}
             athlete = athletes[i].athlete
@@ -415,10 +417,57 @@ def board_person_get_form(request):
             score = athletes[i].Score_Value
             athlete_info["name"] = athlete_name
             athlete_info["score"] = score
-            project_info.append(athlete_info)
+            project_info["athlete"].append(athlete_info)
+        project_info["name"] = project.Project_name
+        project_info["age_group"] = project.Project_agegroup.age_name
+        project_info["sex"] = project.Project_sex
         data['project'].append(project_info)
-
     return JsonResponse(data)
 
+def board_team_get_form(request):
+    sex = request.POST["sex"]
+    age = request.POST["age"]
+    project_id = request.POST["project"]
+    
+    age_group = AgeGroup.objects.filter(age_name__icontains = age)
+    projects =  Project.objects.filter(Project_name__icontains = project_id, Project_sex__icontains = sex, Project_agegroup__in = age_group)
+
+    data = {}
+    data['project'] = []
+    for project in projects:
+        athletes = FinalScore.objects.filter(project = project, Score_Type = "PCS").order_by('-Score_Value')
+        project_info = {}
+        project_info["athlete"] = []
+
+        # for i in range(0, min(6, len(athletes))):
+        #     athlete_info = {}
+        #     athlete = athletes[i].athlete
+        #     athlete_name = athlete.athlete_name
+        #     score = athletes[i].Score_Value
+        #     athlete_info["name"] = athlete_name
+        #     athlete_info["score"] = score
+        #     project_info["athlete"].append(athlete_info)
+        teams = Team.objects.all()
+        for team in teams:
+            tot = 0
+            score = 0
+            team_info = {}
+            for i in range(len(athletes)):
+                athlete = athletes[i].athlete
+                if (athlete.athlete_team == team):
+                    tot += 1
+                    score += int(athletes[i].Score_Value)
+            if (tot != 0):
+                team_info["name"] = team.Team_name
+                team_info["score"] = score
+                project_info["athlete"].append(team_info)
+        project_info["name"] = project.Project_name
+        project_info["age_group"] = project.Project_agegroup.age_name
+        project_info["sex"] = project.Project_sex
+        data['project'].append(project_info)
+    return JsonResponse(data)
+
+
+    
 
     
